@@ -19,11 +19,20 @@ public class FollowerStore {
 
     public void followUser(FollowMessage followMessage) {
 
+        if (followMessage.isFollow()) {
+            //key: follow 하는 사람의 아이디
+            //value: 팔로우 받는 사람들의 아이디
+            redis.opsForSet().add("user:follower:" + followMessage.getFollowerId(), followMessage.getUserId());
+        } else {
+            redis.opsForSet().remove("user:follower:" + followMessage.getFollowerId(), followMessage.getUserId());
+
+        }
     }
 
+    //내가 follow 하는 사람들 목록
     public Set<String> listFollower(String userId) {
 
-        return Set.of();
+        return redis.opsForSet().members("user:follower" + userId);
     }
 
 }

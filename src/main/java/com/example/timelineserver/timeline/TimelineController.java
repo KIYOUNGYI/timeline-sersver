@@ -16,6 +16,7 @@ public class TimelineController {
 
     @GetMapping
     public List<SocialPost> listAllFeed() {
+
         return timelineService.listAllFeed();
     }
 
